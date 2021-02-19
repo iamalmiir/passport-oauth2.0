@@ -14,8 +14,8 @@ passport.deserializeUser(function (user, done) {
 router.post("/register", (req, res) => {
   LocalUser.register(
     {
-      fname: req.body.fName,
-      lName: req.body.lName,
+      firstName: req.body.fName,
+      lastName: req.body.lName,
       username: req.body.username,
     },
     req.body.password,
@@ -52,8 +52,6 @@ router.get(
   passport.authenticate("google", { scope: ["profile"] })
 );
 
-// @desc    Google auth callback
-// @route   GET /auth/google/callback
 router.get(
   "/auth/google/secrets",
   passport.authenticate("google", { failureRedirect: "/" }),
@@ -61,5 +59,23 @@ router.get(
     res.redirect("/secrets");
   }
 );
+
+router.post("/submit", (req, res) => {
+  const secret = req.body.secret;
+
+  LocalUser.findOne(req.user, (err, foundUser) => {
+    if (err) {
+      console.error(err);
+    } else {
+      if (foundUser) {
+        const allSecrets = [];
+        foundUser.secret = secret;
+        foundUser.save(() => {
+          res.redirect("/secrets");
+        });
+      }
+    }
+  });
+});
 
 module.exports = router;
