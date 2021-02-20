@@ -60,6 +60,17 @@ router.get(
   }
 );
 
+router.get("/auth/facebook", passport.authenticate("facebook"));
+
+router.get(
+  "/auth/facebook/secrets",
+  passport.authenticate("facebook", { failureRedirect: "/" }),
+  (req, res) => {
+    console.log(req.user);
+    res.redirect("/secrets");
+  }
+);
+
 router.post("/submit", (req, res) => {
   const secret = req.body.secret;
 
