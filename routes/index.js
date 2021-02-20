@@ -2,9 +2,10 @@ const express = require("express");
 const passport = require("passport");
 const { ensureAuth, ensureGuest } = require("../middleware/ensure-auth");
 const LocalUser = require("../models/LocalUser");
+const GitHubUser = require("../models/github-user");
 const router = express.Router();
 
-router.get("/", ensureGuest, (req, res) => {
+router.get("/", (req, res) => {
   res.render("home");
 });
 router.get("/login", ensureGuest, (req, res) => {

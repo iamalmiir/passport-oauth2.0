@@ -11,6 +11,7 @@ const passport = require("passport");
 const MongoStore = require("connect-mongo")(session);
 const connectDB = require("./config/db");
 require("./config/passport-fb")(passport);
+require("./config/passport-github")(passport);
 require("./config/passport")(passport);
 const app = express();
 

@@ -1,6 +1,7 @@
 const express = require("express");
 const passport = require("passport");
 const LocalUser = require("../models/LocalUser");
+const GitHubUser = require("../models/github-user");
 const router = express.Router();
 passport.use(LocalUser.createStrategy());
 
@@ -71,15 +72,24 @@ router.get(
   }
 );
 
+router.get("/auth/github", passport.authenticate("github"));
+
+router.get(
+  "/auth/github/secrets",
+  passport.authenticate("github", { failureRedirect: "/" }),
+  (req, res) => {
+    console.log(req.user);
+    res.redirect("/secrets");
+  }
+);
+
 router.post("/submit", (req, res) => {
   const secret = req.body.secret;
-
   LocalUser.findOne(req.user, (err, foundUser) => {
     if (err) {
       console.error(err);
     } else {
       if (foundUser) {
-        const allSecrets = [];
         foundUser.secret = secret;
         foundUser.save(() => {
           res.redirect("/secrets");

@@ -518,6 +518,13 @@
   dependencies:
     "passport-oauth2" "1.x.x"
 
+"passport-github2@^0.1.12":
+  "integrity" "sha512-3nPUCc7ttF/3HSP/k9sAXjz3SkGv5Nki84I05kSQPo01Jqq1NzJACgMblCK0fGcv9pKCG/KXU3AJRDGLqHLoIw=="
+  "resolved" "https://registry.npmjs.org/passport-github2/-/passport-github2-0.1.12.tgz"
+  "version" "0.1.12"
+  dependencies:
+    "passport-oauth2" "1.x.x"
+
 "passport-google-oauth20@^2.0.0":
   "integrity" "sha512-KSk6IJ15RoxuGq7D1UKK/8qKhNfzbLeLrG3gkLZ7p4A6DBCcv7xpyQwuXtWdpyR0+E0mwkpjY1VfPOhxQrKzdQ=="
   "resolved" "https://registry.npmjs.org/passport-google-oauth20/-/passport-google-oauth20-2.0.0.tgz"
