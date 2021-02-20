@@ -1,9 +1,8 @@
 const express = require("express");
 const passport = require("passport");
-const LocalUser = require("../models/LocalUser");
-const GitHubUser = require("../models/github-user");
+const OauthUser = require("../models/oauthSchema");
 const router = express.Router();
-passport.use(LocalUser.createStrategy());
+passport.use(OauthUser.createStrategy());
 
 passport.serializeUser(function (user, done) {
   done(null, user);
@@ -13,7 +12,7 @@ passport.deserializeUser(function (user, done) {
 });
 
 router.post("/register", (req, res) => {
-  LocalUser.register(
+  OauthUser.register(
     {
       firstName: req.body.fName,
       lastName: req.body.lName,
@@ -33,7 +32,7 @@ router.post("/register", (req, res) => {
   );
 });
 router.post("/login", (req, res) => {
-  const user = new LocalUser({
+  const user = new OauthUser({
     username: req.body.username,
     password: req.body.password,
   });
@@ -67,7 +66,6 @@ router.get(
   "/auth/facebook/secrets",
   passport.authenticate("facebook", { failureRedirect: "/" }),
   (req, res) => {
-    console.log(req.user);
     res.redirect("/secrets");
   }
 );
@@ -78,14 +76,13 @@ router.get(
   "/auth/github/secrets",
   passport.authenticate("github", { failureRedirect: "/" }),
   (req, res) => {
-    console.log(req.user);
     res.redirect("/secrets");
   }
 );
 
 router.post("/submit", (req, res) => {
   const secret = req.body.secret;
-  LocalUser.findOne(req.user, (err, foundUser) => {
+  OauthUser.findOne(req.user, (err, foundUser) => {
     if (err) {
       console.error(err);
     } else {

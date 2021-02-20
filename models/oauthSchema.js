@@ -1,9 +1,14 @@
 const mongoose = require("mongoose");
-
+const passportLocalMongoose = require("passport-local-mongoose");
 const UserSchema = new mongoose.Schema({
   googleId: {
     type: String,
-    required: true,
+  },
+  facebookId: {
+    type: String,
+  },
+  githubId: {
+    type: String,
   },
   displayName: {
     type: String,
@@ -11,12 +16,13 @@ const UserSchema = new mongoose.Schema({
   },
   firstName: {
     type: String,
-    required: true,
   },
   lastName: {
     type: String,
-    required: true,
   },
+  username: String,
+  secret: String,
+  password: String,
   image: {
     type: String,
   },
@@ -25,5 +31,5 @@ const UserSchema = new mongoose.Schema({
     default: Date.now,
   },
 });
-
-module.exports = mongoose.model("GoogleUser", UserSchema);
+UserSchema.plugin(passportLocalMongoose);
+module.exports = mongoose.model("OauthUser", UserSchema);

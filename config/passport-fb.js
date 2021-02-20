@@ -1,6 +1,5 @@
 const FacebookStrategy = require("passport-facebook");
-const FaceBookUser = require("../models/facebook-user");
-const mongoose = require("mongoose");
+const OauthUser = require("../models/oauthSchema");
 
 module.exports = function (passport) {
   passport.use(
@@ -18,12 +17,12 @@ module.exports = function (passport) {
         };
 
         try {
-          let user = await FaceBookUser.findOne({ facebookId: profile.id });
+          let user = await OauthUser.findOne({ facebookId: profile.id });
 
           if (user) {
             done(null, user);
           } else {
-            user = await FaceBookUser.create(newUser);
+            user = await OauthUser.create(newUser);
             done(null, user);
           }
         } catch (err) {

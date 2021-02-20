@@ -1,8 +1,6 @@
 const express = require("express");
-const passport = require("passport");
 const { ensureAuth, ensureGuest } = require("../middleware/ensure-auth");
-const LocalUser = require("../models/LocalUser");
-const GitHubUser = require("../models/github-user");
+const OauthUser = require("../models/oauthSchema");
 const router = express.Router();
 
 router.get("/", (req, res) => {
@@ -16,7 +14,7 @@ router.get("/register", ensureGuest, (req, res) => {
 });
 
 router.get("/secrets", ensureAuth, (req, res) => {
-  LocalUser.find({ secret: { $ne: null } }, (err, foundSecret) => {
+  OauthUser.find({ secret: { $ne: null } }, (err, foundSecret) => {
     if (err) {
       console.error(err);
     } else {

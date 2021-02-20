@@ -1,5 +1,5 @@
 const GitHubStrategy = require("passport-github2").Strategy;
-const GitHubUser = require("../models/github-user");
+const OauthUser = require("../models/oauthSchema");
 
 module.exports = function (passport) {
   passport.use(
@@ -15,12 +15,12 @@ module.exports = function (passport) {
           displayName: profile.displayName,
         };
         try {
-          let user = await GitHubUser.findOne({ githubId: profile.id });
+          let user = await OauthUser.findOne({ githubId: profile.id });
 
           if (user) {
             done(null, user);
           } else {
-            user = await GitHubUser.create(newUser);
+            user = await OauthUser.create(newUser);
             done(null, user);
           }
         } catch (err) {

@@ -6,10 +6,10 @@ var key = fs.readFileSync(process.env.SSL_KEY_FILE);
 const express = require("express");
 const mongoose = require("mongoose");
 const session = require("express-session");
-const ejs = require("ejs");
 const passport = require("passport");
 const MongoStore = require("connect-mongo")(session);
 const connectDB = require("./config/db");
+require("ejs");
 require("./config/passport-fb")(passport);
 require("./config/passport-github")(passport);
 require("./config/passport")(passport);
@@ -35,7 +35,7 @@ app.use(passport.session());
 
 // Routes
 app.use("/", require("./routes/index"));
-app.use("/", require("./routes/local-auth"));
+app.use("/", require("./routes/oauth-router"));
 
 const PORT = process.env.PORT;
 var options = { key: key, cert: cert };
