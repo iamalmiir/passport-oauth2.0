@@ -38,6 +38,6 @@ app.use("/", require("./routes/index"));
 app.use("/", require("./routes/oauth-router"));
 
 const PORT = process.env.PORT;
-var options = { key: key, cert: cert };
+const options = { key: key, cert: cert };
 const server = https.createServer(options, app);
 server.listen(PORT, console.log(`Servers is runing on: ${PORT}`));
