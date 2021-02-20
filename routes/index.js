@@ -6,7 +6,7 @@ const GitHubUser = require("../models/github-user");
 const router = express.Router();
 
 router.get("/", (req, res) => {
-  res.render("home");
+  //////////-------------
 });
 router.get("/login", ensureGuest, (req, res) => {
   res.render("login");
