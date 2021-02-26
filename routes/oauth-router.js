@@ -14,7 +14,9 @@ passport.deserializeUser(function (user, done) {
 router.post("/register", (req, res) => {
   OauthUser.register(
     {
-      displayName: req.body.displayName,
+      fName: req.body.fName,
+      lName: req.body.lName,
+      displayName: `${req.body.fName} ${req.body.lName}`,
       username: req.body.username,
     },
     req.body.password,
@@ -77,6 +79,7 @@ router.get(
 router.post("/submit", (req, res) => {
   const secret = req.body.secret;
   OauthUser.findOne(req.user, (err, foundUser) => {
+    console.log(foundUser.id);
     err
       ? console.error(err)
       : ((foundUser.secret = secret),
