@@ -4,8 +4,9 @@ const OauthUser = require("../models/oauthSchema");
 const router = express.Router();
 
 router.get("/", (req, res) => {
-  //////////-------------
+  res.send("Nothing here");
 });
+
 router.get("/login", ensureGuest, (req, res) => {
   res.render("login");
 });
@@ -15,16 +16,12 @@ router.get("/register", ensureGuest, (req, res) => {
 
 router.get("/secrets", ensureAuth, (req, res) => {
   OauthUser.find({ secret: { $ne: null } }, (err, foundSecret) => {
-    if (err) {
-      console.error(err);
-    } else {
-      if (foundSecret) {
-        res.render("secrets", {
-          name: req.user.firstName,
+    err
+      ? console.error(err)
+      : res.render("secrets", {
+          name: req.user.displayName,
           userSecret: foundSecret,
         });
-      }
-    }
   });
 });
 

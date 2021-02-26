@@ -14,20 +14,16 @@ passport.deserializeUser(function (user, done) {
 router.post("/register", (req, res) => {
   OauthUser.register(
     {
-      firstName: req.body.fName,
-      lastName: req.body.lName,
+      displayName: req.body.displayName,
       username: req.body.username,
     },
     req.body.password,
     (err, user) => {
-      if (err) {
-        console.log(err);
-        res.redirect("/register");
-      } else {
-        passport.authenticate("local")(req, res, () => {
-          res.redirect("/secrets");
-        });
-      }
+      err
+        ? (console.log(err), res.redirect("/register"))
+        : passport.authenticate("local")(req, res, () => {
+            res.redirect("/secrets");
+          });
     }
   );
 });
@@ -37,13 +33,11 @@ router.post("/login", (req, res) => {
     password: req.body.password,
   });
   req.login(user, (err) => {
-    if (err) {
-      console.log(err);
-    } else {
-      passport.authenticate("local")(req, res, () => {
-        res.redirect("/secrets");
-      });
-    }
+    err
+      ? console.log(err)
+      : passport.authenticate("local")(req, res, () => {
+          res.redirect("/secrets");
+        });
   });
 });
 
@@ -83,16 +77,12 @@ router.get(
 router.post("/submit", (req, res) => {
   const secret = req.body.secret;
   OauthUser.findOne(req.user, (err, foundUser) => {
-    if (err) {
-      console.error(err);
-    } else {
-      if (foundUser) {
-        foundUser.secret = secret;
+    err
+      ? console.error(err)
+      : ((foundUser.secret = secret),
         foundUser.save(() => {
           res.redirect("/secrets");
-        });
-      }
-    }
+        }));
   });
 });
 
